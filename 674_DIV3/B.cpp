@@ -6,33 +6,12 @@ using namespace std;
 
 #define M 1000000000
 
-int solve(int n) {
-	if(n == 1) return 0;
-	pair<int, int> p = {1, 1};
-	queue<pair<int, int>> q;
-	q.push(p);
-	int ans = 0;
-	// unordered_map<int, unordered_set<int>> visited;
-	visited[1].insert(1);
-
-	while(!q.empty()) {
-		int x = q.size();
-		ans++;
-		for(int i = 0; i < x; ++i) {
-			p = q.front();q.pop();
-			if(p.first + 1 >= n || p.first + p.second >= n) return ans;
-			// if(visited.count(p.first + 1) == 0 || visited[p.first+1].find(p.second+1) == visited[p.first+1].end()) {
-				q.push({p.first + 1, p.second + 1});
-			// 	visited[p.first + 1].insert(p.second + 1);
-			// }
-			// if(visited.count(p.first + p.second) == 0 || visited[p.first + p.second].find(p.second) == visited[p.first + p.second].end()) {
-				q.push({p.first + p.second, p.second});
-			// 	visited[p.first + p.second].insert(p.second);
-			// }
-		}
+string solve(int n, int m, vector<vector<int>> &tiles) {
+	if(m & 1) return "NO";
+	for(int i = 0; i < 2 * n; i += 2) {
+		if(tiles[i][1] == tiles[i + 1][0]) return "YES";
 	}
-	return ans;
-
+	return "NO";
 }
 
 
@@ -52,9 +31,15 @@ int main() {
 	cin >> t;
 
 	while (t--) {
-		cin >> n;
+		cin >> n >> m;
 
-		int ans = solve(n);
+		vector<vector<int>> tiles(2*n, vector<int>(2));
+
+		for(int i = 0; i < 2 * n; ++i) {
+			cin >> tiles[i][0] >> tiles[i][1];
+		}
+
+		string ans = solve(n, m, tiles);
 		cout << ans << endl;
 	}
 
