@@ -4,32 +4,21 @@ typedef long long int lli;
 typedef long double ld;
 using namespace std;
 
-#define M 1000000000
+#define M 1e9+7
 
-lli solve(int a, int b, int c) {
-	
-	if(a == b) {
-		return c;
-	}
-	else if(b == c) {
-		return a;
-	}
-	else if(a == c) {
-		return b;
-	}
-	else {
-		vector<lli> vec = {a, b, c};
-		sort(vec.begin(), vec.end());
-		double x = vec[2];
-		double y = vec[0];
-		double z = vec[1];
+// bool solve(int n, int m, vector<int> &v) {
+// 	int sum = 0;
+// 	for(int &i : v)
+// 		sum += i;
+// 	return sum == m;
+// }
 
-		double d = sqrt((x - y) * (x - y) + z * z); 
-		// cout << d << endl;
-		lli ans = (int)(d + 0.5);
-		return ans;
+lli calcMul(lli mul, int m) {
+	lli a = 1;
+	for(int i = 0; i < m; ++i) {
+		a = (a * 2) % M;
 	}
-
+	return (mul * a) % M;
 }
 
 
@@ -45,15 +34,20 @@ int main() {
 
 	//  CODEFORCES   ////////////////////////////
 
-	int t, a, b, c;
-	cin >> t;
+	// int t, n, m;
+	// cin >> t;
 
-	while (t--) {
-		cin >> a >> b >> c;
+	// while (t--) {
+	// 	cin >> n >> m;
 
-		lli ans = solve(a, b, c);
-		cout << ans << endl;
-	}
+	// 	vector<int> v(n);
+	// 	for(int i = 0; i < n; ++i)
+	// 		cin >> v[i];
+	// 	// lli ans = solve(a, b, c);
+	// 	bool ans = solve(n, m, v);
+	// 	if(ans) cout << "YES" << endl;
+	// 	else cout << "NO" << endl;
+	// }
 
 	/////////////////////////////
 
@@ -74,5 +68,33 @@ int main() {
 
 	// }
 	/////////////////////////////
+
+
+	//  LEETCODE   ////////////////////////////
+
+	// int n, x;
+	// cin >> n;
+	// for(int i = 0 ; i < n; ++i) {
+	// 	cin >> x;
+	// 	cout << x << " : " << ((int)log2(x) + 1) << endl;
+	// }
+
+	int n;
+	cin >> n;
+	lli ans = 0, mul = 1;
+
+	for(int i = n; i >= 1; --i) {
+		ans = (ans + ((i * mul) % M)) % M;
+		mul = calcMul(mul, ((int)log2(i) + 1));
+	}
+
+	cout << ans << endl;
+
+
+	// cout << log2(n) << endl;
+	/////////////////////////////
+
+
 	return 0;
 }
+
